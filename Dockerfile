@@ -9,7 +9,7 @@ ENV JAVA_VERSION_MAJOR=8 \
     JAVA_PACKAGE=jdk \
     JAVA_HOME=/opt/java \
     JVM_OPTS="" \
-    PATH=${PATH}:/opt/java/bin \
+    PATH=${PATH}:/opt/java/bin:/${HOME}/.local/bin \
     LANG=C.UTF-8
 
 RUN apt-get update -q && \
@@ -57,5 +57,8 @@ RUN apt-get update -q && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN curl -sSL https://get.haskellstack.org/ | sh
+RUN curl -sSL https://get.haskellstack.org/ | sh && \
+    git clone --recursive https://github.com/rahulmutt/ghcvm && \
+    cd ghcvm && \
+    ./install.sh
 
