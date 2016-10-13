@@ -1,7 +1,7 @@
-FROM debian:stable
+FROM ubuntu:xenial
 MAINTAINER Sibi Prabakaran <sibi@psibi.in>
 
-# Oracle stuff taken from https://github.com/davidcaste/docker-debian-oracle-java/blob/master/8/jdk/Dockerfile
+# Oracle stuff taken and modified from https://github.com/davidcaste/docker-debian-oracle-java/blob/master/8/jdk/Dockerfile
 
 ENV JAVA_VERSION_MAJOR=8 \
     JAVA_VERSION_MINOR=92 \
@@ -9,11 +9,11 @@ ENV JAVA_VERSION_MAJOR=8 \
     JAVA_PACKAGE=jdk \
     JAVA_HOME=/opt/java \
     JVM_OPTS="" \
-    PATH=${PATH}:/opt/java/bin:/${HOME}/.local/bin \
+    PATH=${PATH}:/opt/java/bin:/root/.local/bin \
     LANG=C.UTF-8
 
 RUN apt-get update -q && \
-    apt-get install -q -y --no-install-recommends ca-certificates curl unzip && \
+    apt-get install -q -y --no-install-recommends ca-certificates curl unzip cabal-install libbz2-dev && \
     curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie" -o /tmp/java.tar.gz \
       http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz && \
     gunzip /tmp/java.tar.gz && \
@@ -60,5 +60,6 @@ RUN apt-get update -q && \
 RUN curl -sSL https://get.haskellstack.org/ | sh && \
     git clone --recursive https://github.com/rahulmutt/ghcvm && \
     cd ghcvm && \
+    stack setup && \
     ./install.sh
 
