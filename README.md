@@ -1,6 +1,6 @@
 ghcvm-docker
 ===============
 
-Docker image for ghcvm.
+Docker image for ghcvm. 
 
 
